@@ -24,13 +24,14 @@ scaler = MinMaxScaler(feature_range=(0, 1))
 
 scaled_data = scaler.fit_transform(data["Close"].values.reshape(-1, 1))
 
-prediction_days = 60
+prediction_days = 90
+future_day = 30
 
 x_train, y_train = [], []
 
-for i in range(prediction_days, len(scaled_data)):
+for i in range(prediction_days, len(scaled_data) - future_day):
     x_train.append(scaled_data[i - prediction_days: i, 0])
-    y_train.append(scaled_data[i, 0])
+    y_train.append(scaled_data[i +future_day, 0])
 
 x_train, y_train = np.array(x_train), np.array(y_train)
 x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1], 1))
